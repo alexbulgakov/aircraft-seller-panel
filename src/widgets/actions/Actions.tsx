@@ -10,6 +10,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
+import { AddAndEditModal } from '../addAndEdit'
+
 import { ActionButtons } from '@/entities/aircraft'
 
 export function Actions() {
@@ -17,8 +19,9 @@ export function Actions() {
 
   return (
     <>
-      <ActionButtons onOpenDelete={onOpen} />
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <ActionButtons onOpenDelete={onOpen} onOpenEdit={onOpen} />
+      <AddAndEditModal isOpen={isOpen} onClose={onClose} type="edit" />
+      {/* <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(5px) hue-rotate(90deg)" />
         <ModalContent>
           <ModalHeader>Are you sure?</ModalHeader>
@@ -34,7 +37,7 @@ export function Actions() {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </>
   )
 }

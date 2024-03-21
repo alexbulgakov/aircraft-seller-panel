@@ -30,7 +30,7 @@ export function AircraftInfo({ aircraft }: { aircraft: AircraftType }) {
       </Button>
 
       <Modal size="xl" isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(5px) hue-rotate(340deg)" />
+        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(5px)" />
         <ModalContent>
           <ModalHeader>Info about {name}</ModalHeader>
           <ModalCloseButton />
