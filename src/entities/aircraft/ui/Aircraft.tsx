@@ -1,5 +1,7 @@
 import { Td, Tr } from '@chakra-ui/react'
 
+import { formatToUSDCurrency } from '@/shared/lib'
+
 export function Aircraft({
   name,
   price,
@@ -12,7 +14,7 @@ export function Aircraft({
   return (
     <Tr>
       <Td>{name}</Td>
-      <Td>{price}</Td>
+      <Td>{formatToUSDCurrency(price)}</Td>
       <Td>{children}</Td>
     </Tr>
   )

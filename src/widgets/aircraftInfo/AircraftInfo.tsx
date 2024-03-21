@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 
 import { AircraftType } from '@/entities/aircraft'
+import { formatToUSDCurrency } from '@/shared/lib'
 
 export function AircraftInfo({ aircraft }: { aircraft: AircraftType }) {
   const { name, supplierEmail, count, price, delivery } = aircraft
@@ -51,7 +52,7 @@ export function AircraftInfo({ aircraft }: { aircraft: AircraftType }) {
                   </Tr>
                   <Tr>
                     <Th>Price:</Th>
-                    <Th>{price}</Th>
+                    <Th>{formatToUSDCurrency(price)}</Th>
                   </Tr>
                   {delivery && (
                     <Tr>
