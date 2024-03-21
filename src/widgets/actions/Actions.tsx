@@ -18,8 +18,8 @@ export function Actions() {
   return (
     <>
       <ActionButtons onOpenDelete={onOpen} />
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(5px) hue-rotate(90deg)" />
         <ModalContent>
           <ModalHeader>Are you sure?</ModalHeader>
           <ModalCloseButton />

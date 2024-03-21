@@ -6,6 +6,7 @@ import { AddNewAircraftButton } from '@/features/aircraft/addNew'
 import { SearchAircraft } from '@/features/aircraft/search'
 import { data } from '@/shared/data'
 import { Actions } from '@/widgets/actions'
+import { AircraftInfo } from '@/widgets/aircraftInfo'
 
 export function AircraftSellerPage() {
   return (
@@ -20,7 +21,7 @@ export function AircraftSellerPage() {
 
       <AircraftTable>
         {data.map(aircraft => (
-          <Aircraft key={aircraft.id} name={aircraft.name} price={aircraft.price}>
+          <Aircraft key={aircraft.id} name={<AircraftInfo aircraft={aircraft} />} price={aircraft.price}>
             <Actions />
           </Aircraft>
         ))}
