@@ -13,8 +13,14 @@ export const aircraftSlice = createSlice({
     setData(state, action: PayloadAction<AircraftType[]>) {
       state.data = action.payload
     },
+    addAircraft: (state, action) => {
+      state.data.push(action.payload)
+    },
+    removeAircraft: (state, action) => {
+      state.data = state.data.filter(aircraft => aircraft.id !== action.payload)
+    },
   },
 })
 
-export const { setData } = aircraftSlice.actions
+export const { setData, removeAircraft, addAircraft } = aircraftSlice.actions
 export const aircraftReducer = aircraftSlice.reducer

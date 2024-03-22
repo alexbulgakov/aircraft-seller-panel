@@ -23,7 +23,7 @@ export function Aircraft({
           </Box>
         </Box>
       </Td>
-      <Td>{formatToUSDCurrency(price)}</Td>
+      <Td>{price ? formatToUSDCurrency(price) : '-'}</Td>
       <Td>{children}</Td>
     </Tr>
   )

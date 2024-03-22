@@ -44,24 +44,28 @@ export function AircraftInfo({ aircraft }: { aircraft: AircraftType }) {
                   </Tr>
                   <Tr>
                     <Th>Supplier email:</Th>
-                    <Th>{supplierEmail}</Th>
+                    <Th>{supplierEmail ? supplierEmail : '-'}</Th>
                   </Tr>
                   <Tr>
                     <Th>Count:</Th>
-                    <Th>{count}</Th>
+                    <Th>{count ? count : '-'}</Th>
                   </Tr>
                   <Tr>
                     <Th>Price:</Th>
-                    <Th>{formatToUSDCurrency(price)}</Th>
+                    <Th>{price ? formatToUSDCurrency(price) : '-'}</Th>
                   </Tr>
                   {delivery && (
                     <Tr>
                       <Th>Delivery:</Th>
                       <Th>
-                        <Box display="flex" flexDirection="column" gap={2}>
-                          <Text>{delivery.country}</Text>
-                          <Text as="i">({delivery.city.join(', ')})</Text>
-                        </Box>
+                        {delivery.country ? (
+                          <Box display="flex" flexDirection="column" gap={2}>
+                            <Text>{delivery.country}</Text>
+                            <Text as="i">({delivery.city.join(', ')})</Text>
+                          </Box>
+                        ) : (
+                          '-'
+                        )}
                       </Th>
                     </Tr>
                   )}

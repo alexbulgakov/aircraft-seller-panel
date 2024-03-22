@@ -22,32 +22,23 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Field, Form, Formik } from 'formik'
-import * as Yup from 'yup'
 
+import { AircraftType, validationSchema } from '@/entities/aircraft'
 import { formatToUSDCurrency } from '@/shared/lib'
 
-export function AddAndEditModal({ isOpen, onClose, type }: { isOpen: boolean; onClose: () => void; type: string }) {
+export function AddAndEditModal({
+  isOpen,
+  onClose,
+  type,
+  onSubmitFunc,
+}: {
+  isOpen: boolean
+  onClose: () => void
+  type: string
+  onSubmitFunc: (aircraft: AircraftType) => void
+}) {
   const [displayValue, setDisplayValue] = useState('')
   const [selectedCountry, setSelectedCountry] = useState('')
-
-  const validationSchema = Yup.object({
-    name: Yup.string().trim().required('Name is required').max(15, 'Name must be 15 characters or less'),
-    supplierEmail: Yup.string().email('Invalid email address'),
-    count: Yup.number()
-      .typeError('Count must be a number')
-      .positive('Count must be greater than zero')
-      .integer('Count must be an integer'),
-    price: Yup.number().typeError('Price must be a number').positive('Price must be greater than zero'),
-    cities: Yup.array()
-      .of(Yup.string())
-      .test('cities-check', 'You must select at least one city', function (value) {
-        const { country } = this.parent
-        if (country) {
-          return Array.isArray(value) && value.length > 0
-        }
-        return true
-      }),
-  })
 
   const initialValues = {
     name: '',
@@ -75,21 +66,21 @@ export function AddAndEditModal({ isOpen, onClose, type }: { isOpen: boolean; on
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={values => {
-            console.log(values)
+            onSubmitFunc({
+              id: Date.now(),
+              name: values.name,
+              supplierEmail: values.supplierEmail,
+              count: Number(values.count),
+              price: Number(values.price),
+              delivery: {
+                country: values.country,
+                city: values.cities,
+              },
+            })
           }}
           validateOnBlur={true}
           validateOnChange={false}>
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            touched,
-            errors,
-            setFieldValue,
-            setFieldError,
-            validateField,
-            setFieldTouched,
-          }) => (
+          {({ values, handleChange, handleBlur, touched, errors, setFieldValue, setFieldError }) => (
             <Form autoComplete="off">
               <ModalBody mt={8} display="flex" flexDirection="column" gap={5}>
                 <FormControl isInvalid={!!errors.name && touched.name}>
