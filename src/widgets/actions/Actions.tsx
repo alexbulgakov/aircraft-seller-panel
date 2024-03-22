@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { useAppDispatch } from '@/app/hooks'
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { ActionButtons, AircraftType } from '@/entities/aircraft'
 import { removeAircraft, editAircraft } from '@/entities/aircraft/model/slice'
 import { AddAndEditModal, DeleteModal } from '@/features/aircraft/delete'
@@ -9,6 +9,7 @@ export function Actions({ id }: { id: number }) {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [isEditOpen, setIsEditOpen] = useState(false)
   const dispatch = useAppDispatch()
+  const aircraft = useAppSelector(state => state.aircraft.data.find(aircraft => aircraft.id === id))
 
   const onOpenDelete = () => setIsDeleteOpen(true)
 
@@ -32,7 +33,7 @@ export function Actions({ id }: { id: number }) {
     <>
       <ActionButtons onOpenDelete={onOpenDelete} onOpenEdit={onOpenEdit} />
       <AddAndEditModal isOpen={isEditOpen} onClose={onCloseEdit} type="edit" onSubmitFunc={onEdit} id={id} />
-      <DeleteModal isOpen={isDeleteOpen} onClose={onCloseDelete} onDelete={() => onDelete(id)} />
+      <DeleteModal name={aircraft?.name} isOpen={isDeleteOpen} onClose={onCloseDelete} onDelete={() => onDelete(id)} />
     </>
   )
 }

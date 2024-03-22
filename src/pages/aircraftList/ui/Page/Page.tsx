@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Box, HStack, Heading, useToast } from '@chakra-ui/react'
+import { Alert, AlertIcon, Box, HStack, Heading, useToast } from '@chakra-ui/react'
 
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { Aircraft } from '@/entities/aircraft'
@@ -83,6 +83,12 @@ export function AircraftSellerPage() {
           </Aircraft>
         ))}
       </AircraftTable>
+      {aircraftList.length === 0 && (
+        <Alert mt={5} status="warning" variant="subtle" maxW="600px" alignSelf="center" rounded="md">
+          <AlertIcon />
+          The table is empty. Click &quot;Add new&quot; button to add a new aircraft.
+        </Alert>
+      )}
     </Box>
   )
 }

@@ -13,18 +13,20 @@ export function DeleteModal({
   isOpen,
   onClose,
   onDelete,
+  name,
 }: {
   isOpen: boolean
   onClose: () => void
   onDelete: () => void
+  name: string
 }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(5px) hue-rotate(90deg)" />
       <ModalContent>
-        <ModalHeader>Are you sure?</ModalHeader>
+        <ModalHeader>Deletion</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>Are you sure you want to delete this aircraft?</ModalBody>
+        <ModalBody>Are you sure you want to delete {name}?</ModalBody>
 
         <ModalFooter>
           <Button colorScheme="red" mr={3} onClick={onDelete}>
