@@ -21,7 +21,11 @@ export function AircraftSellerPage() {
 
       <AircraftTable>
         {data.map(aircraft => (
-          <Aircraft key={aircraft.id} name={<AircraftInfo aircraft={aircraft} />} price={aircraft.price}>
+          <Aircraft
+            key={aircraft.id}
+            name={<AircraftInfo aircraft={aircraft} />}
+            count={aircraft.count}
+            price={aircraft.price}>
             <Actions />
           </Aircraft>
         ))}

@@ -79,7 +79,17 @@ export function AddAndEditModal({ isOpen, onClose, type }: { isOpen: boolean; on
           }}
           validateOnBlur={true}
           validateOnChange={false}>
-          {({ values, handleChange, handleBlur, touched, errors, setFieldValue, setFieldError }) => (
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            touched,
+            errors,
+            setFieldValue,
+            setFieldError,
+            validateField,
+            setFieldTouched,
+          }) => (
             <Form autoComplete="off">
               <ModalBody mt={8} display="flex" flexDirection="column" gap={5}>
                 <FormControl isInvalid={!!errors.name && touched.name}>
@@ -177,7 +187,7 @@ export function AddAndEditModal({ isOpen, onClose, type }: { isOpen: boolean; on
                   </Box>
                 </FormControl>
 
-                <Box minH="170px">
+                <Box minH="180px">
                   <FormLabel htmlFor="selection">Delivery:</FormLabel>
 
                   <Box display="flex" gap={3} flexDirection="row">
@@ -229,6 +239,11 @@ export function AddAndEditModal({ isOpen, onClose, type }: { isOpen: boolean; on
                               const checked = e.target.checked
                               const cities = checked ? cityOptions[selectedCountry] : []
                               setFieldValue('cities', cities)
+                              if (checked) {
+                                setFieldError('cities', '')
+                              } else {
+                                setFieldError('cities', 'You must select at least one city')
+                              }
                             }}>
                             Select all
                           </Checkbox>
@@ -237,6 +252,11 @@ export function AddAndEditModal({ isOpen, onClose, type }: { isOpen: boolean; on
                             as={CheckboxGroup}
                             name="cities"
                             onChange={selectedCities => {
+                              if (selectedCities.length > 0) {
+                                setFieldError('cities', '')
+                              } else {
+                                setFieldError('cities', 'You must select at least one city')
+                              }
                               setFieldValue('cities', selectedCities)
                             }}>
                             {cityOptions[selectedCountry].map(city => (
