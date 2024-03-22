@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   Box,
@@ -22,7 +22,9 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Field, Form, Formik } from 'formik'
+import { useSelector } from 'react-redux'
 
+import { useAppSelector } from '@/app/hooks'
 import { AircraftType, validationSchema } from '@/entities/aircraft'
 import { formatToUSDCurrency } from '@/shared/lib'
 
@@ -31,24 +33,46 @@ export function AddAndEditModal({
   onClose,
   type,
   onSubmitFunc,
+  id = 0,
 }: {
   isOpen: boolean
   onClose: () => void
   type: string
   onSubmitFunc: (aircraft: AircraftType) => void
+  id?: number
 }) {
   const [displayValue, setDisplayValue] = useState('')
   const [selectedCountry, setSelectedCountry] = useState('')
 
-  const initialValues = {
-    name: '',
-    supplierEmail: '',
-    count: '',
-    price: '',
-    country: '',
-    cities: [],
-    selection: '',
-  }
+  const aircraft = useAppSelector(state => state.aircraft.data.find(aircraft => aircraft.id === id))
+
+  const initialValues = aircraft
+    ? {
+        name: aircraft.name,
+        supplierEmail: aircraft.supplierEmail,
+        count: aircraft.count.toString(),
+        price: aircraft.price.toString(),
+        country: aircraft.delivery?.country || '',
+        cities: aircraft.delivery?.city || [],
+        selection: '',
+      }
+    : {
+        name: '',
+        supplierEmail: '',
+        count: '',
+        price: '',
+        country: '',
+        cities: [],
+        selection: '',
+      }
+
+  useEffect(() => {
+    if (aircraft?.name) {
+      if (aircraft.price) {
+        setDisplayValue(formatToUSDCurrency(aircraft.price))
+      }
+    }
+  }, [aircraft])
 
   const countryOptions = ['usa', 'russia', 'france']
   const cityOptions = {
@@ -67,7 +91,7 @@ export function AddAndEditModal({
           validationSchema={validationSchema}
           onSubmit={values => {
             onSubmitFunc({
-              id: Date.now(),
+              id: type !== 'add' ? id : Date.now(),
               name: values.name,
               supplierEmail: values.supplierEmail,
               count: Number(values.count),
@@ -77,6 +101,7 @@ export function AddAndEditModal({
                 city: values.cities,
               },
             })
+            setDisplayValue('')
           }}
           validateOnBlur={true}
           validateOnChange={false}>
@@ -222,41 +247,43 @@ export function AddAndEditModal({
 
                     {values.selection === 'city' && selectedCountry && (
                       <Box p={2} minW="140px" border="1px" borderColor="gray.600" borderRadius="5px">
-                        <Stack direction="column">
-                          <Checkbox
-                            name="selectAll"
-                            isChecked={cityOptions[selectedCountry]?.length === values.cities?.length}
-                            onChange={e => {
-                              const checked = e.target.checked
-                              const cities = checked ? cityOptions[selectedCountry] : []
-                              setFieldValue('cities', cities)
-                              if (checked) {
-                                setFieldError('cities', '')
-                              } else {
-                                setFieldError('cities', 'You must select at least one city')
-                              }
-                            }}>
-                            Select all
-                          </Checkbox>
-                          <Divider orientation="horizontal" />
-                          <Field
-                            as={CheckboxGroup}
-                            name="cities"
-                            onChange={selectedCities => {
-                              if (selectedCities.length > 0) {
-                                setFieldError('cities', '')
-                              } else {
-                                setFieldError('cities', 'You must select at least one city')
-                              }
-                              setFieldValue('cities', selectedCities)
-                            }}>
-                            {cityOptions[selectedCountry].map(city => (
-                              <Checkbox key={city} value={city}>
-                                {city}
-                              </Checkbox>
-                            ))}
-                          </Field>
-                        </Stack>
+                        <FormControl isInvalid={!!errors.cities && touched.cities}>
+                          <Stack direction="column">
+                            <Checkbox
+                              name="selectAll"
+                              isChecked={cityOptions[selectedCountry]?.length === values.cities?.length}
+                              onChange={e => {
+                                const checked = e.target.checked
+                                const cities = checked ? cityOptions[selectedCountry] : []
+                                setFieldValue('cities', cities)
+                                if (checked) {
+                                  setFieldError('cities', '')
+                                } else {
+                                  setFieldError('cities', 'You must select at least one city')
+                                }
+                              }}>
+                              Select all
+                            </Checkbox>
+                            <Divider orientation="horizontal" />
+                            <Field
+                              as={CheckboxGroup}
+                              name="cities"
+                              onChange={selectedCities => {
+                                if (selectedCities.length > 0) {
+                                  setFieldError('cities', '')
+                                } else {
+                                  setFieldError('cities', 'You must select at least one city')
+                                }
+                                setFieldValue('cities', selectedCities)
+                              }}>
+                              {cityOptions[selectedCountry].map(city => (
+                                <Checkbox key={city} value={city}>
+                                  {city}
+                                </Checkbox>
+                              ))}
+                            </Field>
+                          </Stack>
+                        </FormControl>
                       </Box>
                     )}
                   </Box>

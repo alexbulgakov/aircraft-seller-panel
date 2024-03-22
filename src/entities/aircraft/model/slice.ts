@@ -19,8 +19,14 @@ export const aircraftSlice = createSlice({
     removeAircraft: (state, action) => {
       state.data = state.data.filter(aircraft => aircraft.id !== action.payload)
     },
+    editAircraft: (state, action) => {
+      const index = state.data.findIndex(aircraft => aircraft.id === action.payload.id)
+      if (index !== -1) {
+        state.data[index] = action.payload
+      }
+    },
   },
 })
 
-export const { setData, removeAircraft, addAircraft } = aircraftSlice.actions
+export const { setData, removeAircraft, addAircraft, editAircraft } = aircraftSlice.actions
 export const aircraftReducer = aircraftSlice.reducer

@@ -18,7 +18,7 @@ export function Aircraft({
       <Td>
         <Box display="flex" justifyContent="space-between" alignItems="center" gap={3} flexDirection="row">
           {name}
-          <Box p={1} border="1px" borderColor="gray.300" rounded="xl">
+          <Box p={1} minW="25px" border="1px" borderColor="gray.300" rounded="xl" textAlign="center">
             {count}
           </Box>
         </Box>
