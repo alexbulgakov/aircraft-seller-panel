@@ -33,7 +33,12 @@ export function Actions({ id }: { id: number }) {
     <>
       <ActionButtons onOpenDelete={onOpenDelete} onOpenEdit={onOpenEdit} />
       <AddAndEditModal isOpen={isEditOpen} onClose={onCloseEdit} type="edit" onSubmitFunc={onEdit} id={id} />
-      <DeleteModal name={aircraft?.name} isOpen={isDeleteOpen} onClose={onCloseDelete} onDelete={() => onDelete(id)} />
+      <DeleteModal
+        name={aircraft?.name ? aircraft.name : ''}
+        isOpen={isDeleteOpen}
+        onClose={onCloseDelete}
+        onDelete={() => onDelete(id)}
+      />
     </>
   )
 }

@@ -7,12 +7,14 @@ export function AircraftTable({
   onPriceClick,
   sortOrder,
   sortField,
+  isEmpty,
 }: {
   children: React.ReactNode
   onNameClick: () => void
   onPriceClick: () => void
   sortOrder: string
   sortField: string
+  isEmpty: boolean
 }) {
   return (
     <TableContainer>
@@ -21,8 +23,8 @@ export function AircraftTable({
           <Tr>
             <Th>
               <Box
-                cursor={'pointer'}
-                onClick={onNameClick}
+                cursor={!isEmpty ? 'pointer' : 'default'}
+                onClick={!isEmpty ? onNameClick : undefined}
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
@@ -36,8 +38,8 @@ export function AircraftTable({
             </Th>
             <Th>
               <Box
-                cursor={'pointer'}
-                onClick={onPriceClick}
+                cursor={!isEmpty ? 'pointer' : 'default'}
+                onClick={!isEmpty ? onPriceClick : undefined}
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"

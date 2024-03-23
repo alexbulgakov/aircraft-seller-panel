@@ -1,2 +1,2 @@
 export { DeleteModal } from './ui/DeleteModal'
-export { AddAndEditModal } from './ui/AddAndEditModal'
+export { AddAndEditModal } from '../addNew/ui/AddAndEditModal'

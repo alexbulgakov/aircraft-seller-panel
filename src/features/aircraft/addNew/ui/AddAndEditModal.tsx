@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 import {
   Box,
@@ -22,10 +22,10 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Field, Form, Formik } from 'formik'
-import { useSelector } from 'react-redux'
 
 import { useAppSelector } from '@/app/hooks'
 import { AircraftType, validationSchema } from '@/entities/aircraft'
+import { countryOptions, cityOptions } from '@/shared/data'
 import { formatToUSDCurrency } from '@/shared/lib'
 
 export function AddAndEditModal({
@@ -50,8 +50,8 @@ export function AddAndEditModal({
     ? {
         name: aircraft.name,
         supplierEmail: aircraft.supplierEmail,
-        count: aircraft.count.toString(),
-        price: aircraft.price.toString(),
+        count: aircraft.count ? aircraft.count.toString() : '',
+        price: aircraft.price ? aircraft.price.toString() : '',
         country: aircraft.delivery?.country || '',
         cities: aircraft.delivery?.city || [],
         selection: '',
@@ -73,13 +73,6 @@ export function AddAndEditModal({
       }
     }
   }, [aircraft])
-
-  const countryOptions = ['usa', 'russia', 'france']
-  const cityOptions = {
-    usa: ['Los Angeles', 'Miami'],
-    russia: ['Moscow', 'Sochi'],
-    france: ['Paris', 'Nice'],
-  }
 
   return (
     <Modal isCentered size="md" isOpen={isOpen} onClose={onClose}>
@@ -212,7 +205,7 @@ export function AddAndEditModal({
                         as={Select}
                         id="selection"
                         name="selection"
-                        onChange={e => {
+                        onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                           setFieldValue('selection', e.target.value)
                         }}>
                         <option value="">Select option</option>
@@ -251,10 +244,13 @@ export function AddAndEditModal({
                           <Stack direction="column">
                             <Checkbox
                               name="selectAll"
-                              isChecked={cityOptions[selectedCountry]?.length === values.cities?.length}
+                              isChecked={
+                                cityOptions[selectedCountry as keyof typeof cityOptions]?.length ===
+                                values.cities?.length
+                              }
                               onChange={e => {
                                 const checked = e.target.checked
-                                const cities = checked ? cityOptions[selectedCountry] : []
+                                const cities = checked ? cityOptions[selectedCountry as keyof typeof cityOptions] : []
                                 setFieldValue('cities', cities)
                                 if (checked) {
                                   setFieldError('cities', '')
@@ -268,7 +264,7 @@ export function AddAndEditModal({
                             <Field
                               as={CheckboxGroup}
                               name="cities"
-                              onChange={selectedCities => {
+                              onChange={(selectedCities: string[]) => {
                                 if (selectedCities.length > 0) {
                                   setFieldError('cities', '')
                                 } else {
@@ -276,7 +272,7 @@ export function AddAndEditModal({
                                 }
                                 setFieldValue('cities', selectedCities)
                               }}>
-                              {cityOptions[selectedCountry].map(city => (
+                              {cityOptions[selectedCountry as keyof typeof cityOptions].map(city => (
                                 <Checkbox key={city} value={city}>
                                   {city}
                                 </Checkbox>
