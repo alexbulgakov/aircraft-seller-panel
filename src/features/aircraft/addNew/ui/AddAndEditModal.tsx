@@ -68,6 +68,9 @@ export function AddAndEditModal({
 
   useEffect(() => {
     if (aircraft?.name) {
+      if (aircraft.delivery?.country) {
+        setSelectedCountry(aircraft.delivery?.country)
+      }
       if (aircraft.price) {
         setDisplayValue(formatToUSDCurrency(aircraft.price))
       }

@@ -6,8 +6,8 @@ export const data = [
     count: 50,
     price: 10000000,
     delivery: {
-      country: 'United States',
-      city: ['Los Angeles', 'New York'],
+      country: 'usa',
+      city: ['Los Angeles', 'Miami'],
     },
   },
   {
@@ -17,7 +17,7 @@ export const data = [
     count: 30,
     price: 150000000,
     delivery: {
-      country: 'France',
+      country: 'france',
       city: ['Paris', 'Nice'],
     },
   },
@@ -28,8 +28,8 @@ export const data = [
     count: 20,
     price: 50000000,
     delivery: {
-      country: 'United Kingdom',
-      city: ['London', 'Manchester'],
+      country: 'usa',
+      city: ['Los Angeles'],
     },
   },
   {
@@ -39,8 +39,8 @@ export const data = [
     count: 40,
     price: 200000000,
     delivery: {
-      country: 'Germany',
-      city: ['Berlin', 'Munich'],
+      country: 'russia',
+      city: ['Moscow', 'Sochi'],
     },
   },
   {
@@ -50,8 +50,8 @@ export const data = [
     count: 25,
     price: 130000000,
     delivery: {
-      country: 'Italy',
-      city: ['Rome', 'Milan'],
+      country: 'france',
+      city: ['Paris'],
     },
   },
   {
@@ -75,8 +75,8 @@ export const data = [
     count: 20,
     price: 220000000,
     delivery: {
-      country: 'Russia',
-      city: ['Moscow', 'St. Petersburg', 'Novosibirsk'],
+      country: 'russia',
+      city: ['Moscow'],
     },
   },
 ]
